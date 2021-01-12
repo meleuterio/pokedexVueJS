@@ -1,28 +1,76 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">    
+    <div class="column is-half is-offset-one-quarter">
+      <img class="pokedex" src="./assets/pokedex.png">
+      <h1 class="is-size-3">Pokedex</h1>
+
+      <div class="buscaPokemon">
+        <input class="input is-success" type="text" placeholder="Buscar pokemon pelo nome" v-model="busca">
+      </div>
+
+      <div v-for="(poke, index) in resultadoBusca" :key="poke.url">
+        <pokemon :name="poke.name" :url="poke.url" :num="index+1"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
+import Pokemon from './components/Pokemon'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      pokemons: [],
+      busca: ''
+    }
+  },
   components: {
-    HelloWorld
+    Pokemon
+  },
+  computed: {
+    resultadoBusca() {
+      if(this.busca == '' || this.busca == ' ') {
+        return this.pokemons
+      } else {
+        return this.pokemons.filter(pokemon => pokemon.name == this.busca)
+      }
+    }
+  },
+  async created() {
+    axios.get("https://pokeapi.co/api/v2/pokemon?limit=151&offset=0").then(res => {
+      this.pokemons = res.data.results
+    })
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Montserrat, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.pokedex {
+  margin-top: 25px;
+  width: 480px;
+}
+
+.buscaPokemon {
+  justify-content: space-between;
+}
+
+#btnBuscar {
+  margin-top: 1%;  
+}
+
+.is-size-3 {
+  margin-top: -40px;
+  
 }
 </style>
