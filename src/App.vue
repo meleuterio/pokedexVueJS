@@ -61,10 +61,6 @@ export default {
   width: 480px;
 }
 
-#btnBuscar {
-  margin-top: 1%;  
-}
-
 .is-size-3 {
   margin-top: -40px;
   
