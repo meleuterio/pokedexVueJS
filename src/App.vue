@@ -61,10 +61,6 @@ export default {
   width: 480px;
 }
 
-.buscaPokemon {
-  justify-content: space-between;
-}
-
 #btnBuscar {
   margin-top: 1%;  
 }
